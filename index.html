@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Required mobile viewport (no zoom so the pranks behave on the phone) -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#0b0b12">
+<title>Operation: Nouha's Birthday 🎂🐾</title>
+<link rel="icon" href="data:,">
+<!-- Optional Google Fonts — falls back to system fonts if offline -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="burst-layer" aria-hidden="true"></div>      <!-- little 🐾 bursts on tap -->
+<div id="confetti-layer" aria-hidden="true"></div>   <!-- confetti + paw rain -->
+<div id="glitch-overlay" aria-hidden="true"></div>   <!-- RGB-split glitch flash -->
+
+<!-- ═══════════════ SCENE 1 — THE GATE (password lock) ═══════════════ -->
+<section id="scene-gate" class="scene active">
+  <div class="wrap gate-wrap">
+    <div class="mission-title">// OPERATION: NOUHA'S BIRTHDAY</div>
+
+    <!-- Blinking glowing cat eyes (pure CSS cat head) -->
+    <div class="cat-head" id="gate-cathead">
+      <div class="ear ear-l"></div>
+      <div class="ear ear-r"></div>
+      <div class="eye eye-l"></div>
+      <div class="eye eye-r"></div>
+      <div class="nose"></div>
+      <div class="wsk w-l"></div>
+      <div class="wsk w-r"></div>
+    </div>
+
+    <p class="typewriter"><span id="typewriter-text"></span><span class="caret"></span></p>
+
+    <form id="gate-form" class="gate-form" autocomplete="off">
+      <label class="gate-label" for="gate-input">STATE THE PASSWORD, HUMAN:</label>
+      <div class="gate-input-row">
+        <input id="gate-input" type="text" placeholder="……" autocapitalize="off" autocorrect="off" spellcheck="false">
+        <button id="gate-submit" type="submit" class="btn btn-paw">Unlock 🐾</button>
+      </div>
+    </form>
+    <p id="gate-error" class="gate-error" role="alert"></p>
+  </div>
+</section>
+
+<!-- ═══════════════ SCENE 2 — FAKE CRITICAL ERROR ═══════════════ -->
+<section id="scene-error" class="scene">
+  <div class="wrap error-wrap">
+    <div class="error-modal">
+      <div class="error-title"><span class="err-ico">⚠️</span> Critical Error</div>
+      <div class="error-body">WARNING: Too much cuteness detected.<br>System overload.</div>
+    </div>
+    <!-- The OK button lives OUTSIDE the modal so it can never be hidden or
+         clipped by the modal's overflow during the pop-in animation. -->
+    <button id="error-ok" type="button" class="btn btn-ok dodger">OK</button>
+  </div>
+  <!-- glass-shatter / crack overlay injected over the screen -->
+  <div id="glass-broken" class="glass-broken" hidden>
+    <svg class="cracks" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <path class="crk" d="M50 45 L38 30 L44 12"/>
+      <path class="crk" d="M50 45 L58 25 L56 4"/>
+      <path class="crk" d="M50 45 L42 55 L30 52 L20 40"/>
+      <path class="crk" d="M50 45 L56 58 L66 66"/>
+      <path class="crk" d="M50 45 L10 60"/>
+      <path class="crk" d="M50 45 L90 70"/>
+      <circle class="crk crk-dent" cx="50" cy="45" r="3.2"/>
+    </svg>
+    <div class="crack-flash"></div>
+  </div>
+</section>
+
+<!-- ═══════════════ SCENE 3 — CAT WHACK-A-MOLE ═══════════════ -->
+<section id="scene-whack" class="scene">
+  <div class="wrap whack-wrap">
+    <h2>Whack-a-Cat 🐱🔨</h2>
+    <p class="whack-hint">Tap the cats as they pop up! Gently. It's a bonk, not a smack. 🐾</p>
+    <div class="whack-progress">
+      <span class="whack-count-emoji">🐾</span>
+      <span id="whack-count">0</span><span class="whack-total"> / 10</span>
+    </div>
+
+    <div id="whack-grid" class="whack-grid">
+      <div class="whack-cell"><div class="hole"></div><div class="cat">😺</div></div>
+      <div class="whack-cell"><div class="hole"></div><div class="cat">😸</div></div>
+      <div class="whack-cell"><div class="hole"></div><div class="cat">😹</div></div>
+      <div class="whack-cell"><div class="hole"></div><div class="cat">😺</div></div>
+      <div class="whack-cell"><div class="hole"></div><div class="cat">😻</div></div>
+      <div class="whack-cell"><div class="hole"></div><div class="cat">😽</div></div>
+      <div class="whack-cell"><div class="hole"></div><div class="cat">😸</div></div>
+      <div class="whack-cell"><div class="hole"></div><div class="cat">😹</div></div>
+      <div class="whack-cell"><div class="hole"></div><div class="cat">😻</div></div>
+    </div>
+    <p id="whack-msg" class="whack-msg"></p>
+
+    <div id="whack-done" class="whack-done" hidden>
+      <div class="whack-done-cat">🐈‍⬛</div>
+      <p class="whack-done-text">Wow, purr-fect score!<br><small>(we lied, there was no scoring 😹)</small></p>
+      <button id="whack-continue" type="button" class="btn btn-primary">Continue →</button>
+    </div>
+  </div>
+
+  <!-- Jump-scare: the "jumpscare photo" pops up huge with the scare sound -->
+  <div id="jumpscare" class="jumpscare" hidden>
+    <div id="jumpscare-cat" class="jumpscare-cat">
+      <img id="jumpscare-photo" class="jumpscare-photo" src="public/jumpscarephoto.jpeg" alt="Gotcha!" loading="eager" draggable="false">
+    </div>
+    <div id="jumpscare-caption" class="jumpscare-caption">Gotcha! 😹</div>
+  </div>
+</section>
+
+<!-- ═══════════════ SCENE 4 — CATCH THE GIFT ═══════════════ -->
+<section id="scene-catch" class="scene">
+  <div class="wrap catch-wrap">
+    <h2>Catch the Gift! 🎁</h2>
+    <p id="catch-hint" class="catch-hint">It's shy. Chase it down and tap to catch it!</p>
+    <p id="catch-counter" class="catch-counter">Escapes: 0 / 5</p>
+    <div id="catch-area" class="catch-area">
+      <div id="gift" class="gift dodger">
+        <div class="gift-ears">
+          <span class="ear gift-ear-l"></span><span class="ear gift-ear-r"></span>
+        </div>
+        <div class="gift-box">🎁</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SCENE 5 — MEMORY MATCH ═══════════════ -->
+<section id="scene-memory" class="scene">
+  <div class="wrap memory-wrap">
+    <h2>Memory Match 📸</h2>
+    <p class="memory-hint">Flip the cards and find each matching memory pair. 🐾</p>
+    <div id="memory-grid" class="memory-grid"></div>
+    <div id="memory-caption" class="memory-caption" aria-live="polite"></div>
+    <div id="memory-done" class="memory-done" hidden>
+      <button id="memory-continue" type="button" class="btn btn-primary">Continue →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SCENE 6 — THE QUIZ ═══════════════ -->
+<section id="scene-quiz" class="scene">
+  <div class="wrap quiz-wrap">
+    <h2>The Friendship Quiz 🧠</h2>
+    <div id="quiz-progress" class="quiz-progress"></div>
+    <div class="quiz-card">
+      <p id="quiz-question" class="quiz-question"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-feedback" class="quiz-feedback" aria-live="polite"></p>
+      <button id="quiz-continue" type="button" class="btn btn-primary hidden">Continue →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SCENE 7 — FINAL REVEAL ═══════════════ -->
+<section id="scene-reveal" class="scene">
+  <!-- Curtains -->
+  <div id="curtain-left" class="curtain curtain-left">
+    <span class="curtain-paw">🐾</span><span class="curtain-paw">🐾</span><span class="curtain-paw">🐾</span>
+  </div>
+  <div id="curtain-right" class="curtain curtain-right">
+    <span class="curtain-paw">🐾</span><span class="curtain-paw">🐾</span><span class="curtain-paw">🐾</span>
+  </div>
+
+  <div class="wrap reveal-wrap" id="reveal-content">
+    <h1 id="reveal-title" class="reveal-title pop-title"></h1>
+
+    <!-- {{FINAL_MESSAGE}} — edit the message below ↓ -->
+    <div class="final-card">
+      <p class="final-message">Nouha, I hope this year brings you everything you deserve — more laughter than stress, more good days than bad, and people around you who see how amazing you are (I already do 😄). Thank you for being my friend — genuinely, I'm really happy to have you in my life. Happy birthday, Nouha! 🎂🐾</p>
+      <p class="final-sign">— from the cat-in-chief 🐾</p>
+    </div>
+
+    <!-- Photo slideshow -->
+    <div id="slideshow" class="slideshow">
+      <div id="slideshow-track" class="slideshow-track"></div>
+      <button id="ss-prev" class="ss-arrow ss-prev" type="button" aria-label="Previous photo">‹</button>
+      <button id="ss-next" class="ss-arrow ss-next" type="button" aria-label="Next photo">›</button>
+      <div id="slideshow-dots" class="slideshow-dots"></div>
+    </div>
+
+    <!-- Closing card -->
+    <div class="closing-card">
+      <div class="closing-title">🎁 A gift, almost…</div>
+      <p class="closing-text">I didn't want to guess and get it wrong... so if there's something on your mind, just tell me! 👀</p>
+      <!-- Optional WhatsApp link — replace NUMBER and uncomment to enable:
+      <a class="wa-btn btn btn-primary" href="https://wa.me/NUMBER?text=I%20know%20what%20I%20want%20%F0%9F%8E%81">Message me on WhatsApp 💬</a>
+      -->
+    </div>
+
+    <p class="footer-note">Made with cat fur • Operation Nouha 🐾</p>
+  </div>
+</section>
+
+<noscript><p style="text-align:center;color:#ddd;padding:2rem">Please enable JavaScript for this surprise to work. 🐾</p></noscript>
+
+<script src="script.js"></script>
+</body>
+</html>
